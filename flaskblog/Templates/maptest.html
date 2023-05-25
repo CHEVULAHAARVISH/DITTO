@@ -1,0 +1,60 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="content-section">
+        <h1>{{ current_user.usernames }}</h1>
+        <form method="post" action="">
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group ">
+                <legend class="border-bottom mb-4">SEND PACKAGE</legend>
+                <div class="form-group">
+                    {{ form.email.label(class="form-control-label") }}
+                    {% if form.email.errors %}
+                        {{ form.email(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.email.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}    
+                        </div>
+                    {% else %}
+                        {{ form.email(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.confirm_email.label(class="form-control-label") }}
+                    {% if form.confirm_email.errors %}
+                        {{ form.confirm_email(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.confirm_email.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}    
+                        </div>
+                    {% else %}
+                        {{ form.confirm_email(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {{ form.pickup_location.label(class="form-control-label") }}
+                    {{ form.pickup_location(class="form-control form-control-lg", id="pickup-location") }}
+                </div>
+                <div class="form-group">
+                    {{ form.drop_location.label(class="form-control-label") }}
+                    {{ form.drop_location(class="form-control form-control-lg", id="drop-location") }}
+                </div>
+            </fieldset>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-outline-info") }}
+            </div>  
+        </form>     
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#pickup-location').change(function() {
+                var pickupLocation = $(this).val();
+                var dropLocation = (pickupLocation === 'SET BLOCK') ? 'MUNCHIES' : 'SET BLOCK';
+                $('#drop-location').val(dropLocation);
+            });
+        });
+    </script>
+{% endblock content %}
